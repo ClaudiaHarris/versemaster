@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Practice Verse - Verse Memory Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="navbar"></nav>
+  <h1>Practice Verse</h1>
+  <select id="verseSelect"></select>
+  <p id="displayVerse"></p>
+  <button id="readyBtn" onclick="startPractice()">Ready</button>
+  <input id="wordInput" style="display:none">
+  <button id="submitBtn" style="display:none" onclick="checkWord()">Submit</button>
+  <button id="nextBtn" style="display:none" onclick="nextWord()">Next</button>
+  <p id="feedback"></p>
+  <script src="scripts/utils.js"></script>
+  <script src="scripts/practice.js"></script>
+</body>
+</html>

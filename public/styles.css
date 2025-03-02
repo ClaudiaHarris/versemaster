@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; margin: 20px; }
+nav { background: #333; padding: 10px; }
+nav a { color: white; margin: 0 10px; text-decoration: none; }
+button { padding: 10px; margin: 5px; }
+input, textarea { margin: 5px; padding: 5px; }
+canvas { max-width: 400px; }

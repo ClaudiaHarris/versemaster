@@ -1,0 +1,21 @@
+verse-memory-game/
+├── public/                # Static assets (HTML, CSS, JS)
+│   ├── index.html         # Login page
+│   ├── main.html          # Main Menu page
+│   ├── verses.html        # View Verses page
+│   ├── add-verse.html     # Add Verse page
+│   ├── practice.html      # Practice Verse page
+│   ├── about.html         # About page
+│   ├── styles.css         # Shared CSS
+│   ├── scripts/           # JavaScript files
+│   │   ├── login.js       # Login logic
+│   │   ├── main.js        # Main Menu logic
+│   │   ├── verses.js      # View Verses logic
+│   │   ├── add-verse.js   # Add Verse logic
+│   │   ├── practice.js    # Practice Verse logic
+│   │   └── utils.js       # Shared utilities (e.g., navbar, error handling)
+│   └── assets/            # Images, fonts, etc. (optional)
+├── server/                # Local Node.js server (for password only)
+│   ├── server.js          # Server code
+│   └── package.json       # Node.js dependencies
+└── README.md              # Project documentation
