@@ -1,14 +1,28 @@
 let currentVerse, words, currentWordIndex;
 
 document.addEventListener('DOMContentLoaded', () => {
-  const userData = getUserData();
-  const select = document.getElementById('verseSelect');
-  userData.verses.filter(v => v.status === 'practicing').forEach(v => {
-    const option = document.createElement('option');
-    option.value = v.text;
-    option.textContent = `${v.book} ${v.chapter}:${v.verse}`;
-    select.appendChild(option);
-  });
+    const userData = getUserData();
+    const select = document.getElementById('verseSelect');
+    
+    // Add change event listener to verse select
+    select.addEventListener('change', () => {
+        const selectedVerse = select.value;
+        document.getElementById('displayVerse').textContent = selectedVerse;
+        document.getElementById('startBtn').style.display = 'block';
+        document.getElementById('deleteBtn').style.display = 'block';
+        document.getElementById('readyBtn').style.display = 'none';
+        document.getElementById('wordInput').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'none';
+    });
+
+    // Populate verse select options
+    userData.verses.filter(v => v.status === 'practicing').forEach(v => {
+        const option = document.createElement('option');
+        option.value = v.text;
+        option.textContent = `${v.book} ${v.chapter}:${v.verse}`;
+        option.dataset.reference = JSON.stringify({ book: v.book, chapter: v.chapter, verse: v.verse });
+        select.appendChild(option);
+    });
 });
 
 function startPractice() {
@@ -16,8 +30,7 @@ function startPractice() {
   currentVerse = select.value;
   words = currentVerse.split(' ');
   currentWordIndex = 0;
-  document.getElementById('displayVerse').textContent = currentVerse;
-  document.getElementById('readyBtn').style.display = 'none';
+  document.getElementById('startBtn').style.display = 'none';
   document.getElementById('wordInput').style.display = 'block';
   document.getElementById('submitBtn').style.display = 'block';
   nextWord();
@@ -50,4 +63,35 @@ function checkWord() {
   } else {
     feedback.textContent = 'Try again';
   }
+}
+
+function deleteVerse() {
+    const select = document.getElementById('verseSelect');
+    const selectedOption = select.selectedOptions[0];
+    
+    if (!selectedOption.value) {
+        alert('Please select a verse to delete');
+        return;
+    }
+
+    if (confirm('Are you sure you want to delete this verse?')) {
+        const reference = JSON.parse(selectedOption.dataset.reference);
+        const userData = getUserData();
+        
+        // Find and remove the verse
+        userData.verses = userData.verses.filter(v => 
+            !(v.book === reference.book && 
+              v.chapter === reference.chapter && 
+              v.verse === reference.verse)
+        );
+        
+        // Save updated data
+        saveUserData(userData);
+        
+        // Remove from select and reset display
+        select.remove(select.selectedIndex);
+        document.getElementById('displayVerse').textContent = '';
+        document.getElementById('startBtn').style.display = 'none';
+        document.getElementById('deleteBtn').style.display = 'none';
+    }
 }

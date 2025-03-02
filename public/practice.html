@@ -8,13 +8,18 @@
 <body>
   <nav id="navbar"></nav>
   <h1>Practice Verse</h1>
-  <select id="verseSelect"></select>
-  <p id="displayVerse"></p>
-  <button id="readyBtn" onclick="startPractice()">Ready</button>
-  <input id="wordInput" style="display:none">
-  <button id="submitBtn" style="display:none" onclick="checkWord()">Submit</button>
-  <button id="nextBtn" style="display:none" onclick="nextWord()">Next</button>
-  <p id="feedback"></p>
+  <div class="verse-selector">
+    <select id="verseSelect">
+      <option value="">Select a verse...</option>
+    </select>
+    <button id="deleteBtn" style="display: none" onclick="deleteVerse()">Delete Verse</button>
+  </div>
+  <div id="displayVerse"></div>
+  <button id="startBtn" style="display: none" onclick="startPractice()">Start Practice</button>
+  <input id="wordInput" style="display: none">
+  <button id="submitBtn" style="display: none" onclick="checkWord()">Submit</button>
+  <button id="nextBtn" style="display: none" onclick="nextWord()">Next Word</button>
+  <div id="feedback"></div>
   <script src="scripts/utils.js"></script>
   <script src="scripts/practice.js"></script>
 </body>
