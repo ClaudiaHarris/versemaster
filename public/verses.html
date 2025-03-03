@@ -1,19 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Verses - Verse Memory Game</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>VerseMaster - Verses</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
-  <nav id="navbar"></nav>
-  <h1>View Verses</h1>
-  <canvas id="verseChart"></canvas>
-  <ul id="verseList"></ul>
-  <button onclick="location.href='add-verse.html'">Add Verse</button>
-  <button onclick="location.href='practice.html'">Practice Verse</button>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="scripts/utils.js"></script>
-  <script src="scripts/verses.js"></script>
+    <nav id="navbar"></nav>
+    <div class="container">
+        <h1>Bible Verses</h1>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('add')">Add Verse</button>
+            <button class="tab-btn" onclick="showTab('practice')">Practice</button>
+            <button class="tab-btn" onclick="showTab('progress')">Progress</button>
+        </div>
+
+        <div id="add-tab" class="tab-content active">
+            <input type="text" id="book" placeholder="Book (e.g., Matthew)">
+            <input type="text" id="chapter" placeholder="Chapter">
+            <input type="text" id="verse" placeholder="Verse (e.g., 1 or 1-3)">
+            <textarea id="text" placeholder="Verse text"></textarea>
+          <div class="add-verse-btns">
+            <button onclick="lookupVerse()">Look Up</button>
+            <button onclick="addVerse()">Add Verse</button>
+          </div>
+
+        <div id="practice-tab" class="tab-content">
+            <select id="verseSelect">
+                <option value="">Select a verse to practice...</option>
+            </select>
+            <div id="displayVerse"></div>
+            <button id="startBtn" style="display: none">Start Practice</button>
+            <div id="practiceArea"></div>
+        </div>
+
+        <div id="progress-tab" class="tab-content">
+            <div class="chart-container">
+                <canvas id="verseChart"></canvas>
+            </div>
+            <ul id="verseList"></ul>
+        </div>
+    </div>
+
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/layout.js"></script>
+    <script src="scripts/session.js"></script>
+    <script src="scripts/add-verse.js"></script>
+    <script>
+        checkAuth();  // Check if user is authenticated
+    </script>
 </body>
 </html>

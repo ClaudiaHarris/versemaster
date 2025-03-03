@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Main Menu - Verse Memory Game</title>
+  <title>VerseMaster - Main Menu</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <nav id="navbar"></nav>
-  <h1>Main Menu</h1>
-  <p>Points: <span id="points">0</span></p>
-  <button onclick="location.href='verses.html'">View Verses</button>
-  <button onclick="location.href='practice.html'">Practice Verse</button>
+  <div class="container">
+    <h1>Welcome to VerseMaster</h1>
+    <p>Points: <span id='points'>0</span></p>
+
+    <div class="menu-buttons">
+      <button onclick="location.href='verses.html'">Manage Verses</button>
+      <button onclick="location.href='about.html'">About</button>
+    </div>
+
+  </div>
   <script src="scripts/utils.js"></script>
-  <script src="scripts/main.js"></script>
+  <script src="scripts/session.js"></script>
+  <script src="scripts/layout.js"></script>
+  <script>
+    checkAuth();
+  </script>
 </body>
-</html>

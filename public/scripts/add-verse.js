@@ -12,6 +12,37 @@ const bookMap = {
   'joshua': 'JOS',
   'judges': 'JDG',
   'ruth': 'RUT',
+  '1 samuel': '1SA',
+  '2 samuel': '2SA',
+  '1 kings': '1KI',
+  '2 kings': '2KI',
+  '1 chronicles': '1CH',
+  '2 chronicles': '2CH',
+  'ezra': 'EZR',
+  'nehemiah': 'NEH',
+  'esther': 'EST',
+  'job': 'JOB',
+  'psalms': 'PSA',
+  'proverbs': 'PRO',
+  'ecclesiastes': 'ECC',
+  'song of solomon': 'SNG',
+  'isaiah': 'ISA',
+  'jeremiah': 'JER',
+  'lamentations': 'LAM',
+  'ezekiel': 'EZK',
+  'daniel': 'DAN',
+  'hosea': 'HOS',
+  'joel': 'JOL',
+  'amos': 'AMO',
+  'obadiah': 'OBA',
+  'jonah': 'JON',
+  'micah': 'MIC',
+  'nahum': 'NAM',
+  'habakkuk': 'HAB',
+  'zephaniah': 'ZEP',
+  'haggai': 'HAG',
+  'zechariah': 'ZEC',
+  'malachi': 'MAL',
   'matthew': 'MAT',
   'mark': 'MRK',
   'luke': 'LUK',
@@ -39,7 +70,6 @@ const bookMap = {
   '3 john': '3JN',
   'jude': 'JUD',
   'revelation': 'REV'
-  // Add more as needed (full list: https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/books)
 };
 
 function lookupVerse() {
@@ -110,5 +140,6 @@ function addVerse() {
   const userData = getUserData();
   userData.verses.push({ book, chapter, verse, text, status: 'practicing' });
   saveUserData(userData);
+  alert('Verse added!');
   location.href = 'verses.html';
 }
