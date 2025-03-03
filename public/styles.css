@@ -156,6 +156,14 @@ input, textarea {
   margin: 15px;
 }
 
+.correct-word {
+  color: green;
+}
+
+.help-word {
+  color: red;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 600px) {
   .container { padding: 10px; max-width: 100%; }

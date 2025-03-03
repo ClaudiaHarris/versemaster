@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add change event listener to verse select
     select.addEventListener('change', () => {
         const selectedVerse = select.value;
-        document.getElementById('displayVerse').textContent = selectedVerse;
+        document.getElementById('displayVerse').innerHTML = selectedVerse;
         document.getElementById('startBtn').style.display = 'block';
     });
 
@@ -35,8 +35,8 @@ function startPractice() {
 function nextWord() {
     if (currentWordIndex < words.length) {
         missingWord = words[currentWordIndex];
-        words[currentWordIndex] = '_____';
-        document.getElementById('displayVerse').textContent = words.join(' ');
+        words[currentWordIndex] = `<span class="missing-word">_____</span>`;
+        document.getElementById('displayVerse').innerHTML = words.join(' ');
         document.getElementById('wordInput').value = '';
         document.getElementById('wordInput').placeholder = `Enter word ${currentWordIndex + 1}`;
         document.getElementById('feedback').textContent = '';
@@ -51,7 +51,7 @@ function nextWord() {
 function checkWord() {
     const input = document.getElementById('wordInput').value.trim();
     if (input === missingWord) {
-        words[currentWordIndex] = missingWord;
+        words[currentWordIndex] = `<span class="correct-word">${missingWord}</span>`;
         currentWordIndex++;
         document.getElementById('feedback').textContent = 'Correct!';
         nextWord();
@@ -61,7 +61,7 @@ function checkWord() {
 }
 
 function provideHelp() {
-    words[currentWordIndex] = missingWord;
+    words[currentWordIndex] = `<span class="help-word">${missingWord}</span>`;
     currentWordIndex++;
     document.getElementById('feedback').textContent = `The correct word was: ${missingWord}`;
     nextWord();
