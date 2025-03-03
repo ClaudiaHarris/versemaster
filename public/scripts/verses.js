@@ -43,18 +43,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  // Initialize the first tab as active
+  showTab('add');
 });
 
 function showTab(tabName) {
-    // Hide all tabs
+    // Hide all tab contents
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
+
+    // Remove active class from all tab buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
 
-    // Show selected tab
+    // Show the selected tab content
     document.getElementById(`${tabName}-tab`).classList.add('active');
+
+    // Add active class to the selected tab button
     document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
 }

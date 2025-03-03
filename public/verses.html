@@ -21,18 +21,23 @@
             <input type="text" id="chapter" placeholder="Chapter">
             <input type="text" id="verse" placeholder="Verse (e.g., 1 or 1-3)">
             <textarea id="text" placeholder="Verse text"></textarea>
-          <div class="add-verse-btns">
-            <button onclick="lookupVerse()">Look Up</button>
-            <button onclick="addVerse()">Add Verse</button>
-          </div>
+            <div class="add-verse-btns">
+                <button onclick="lookupVerse()">Look Up</button>
+                <button onclick="addVerse()">Add Verse</button>
+            </div>
+        </div>
 
         <div id="practice-tab" class="tab-content">
             <select id="verseSelect">
                 <option value="">Select a verse to practice...</option>
             </select>
             <div id="displayVerse"></div>
-            <button id="startBtn" style="display: none">Start Practice</button>
-            <div id="practiceArea"></div>
+            <button id="startBtn" style="display: none" onclick="startPractice()">Start Practice</button>
+            <input id="wordInput" style="display: none">
+            <button id="submitBtn" style="display: none" onclick="checkWord()">Submit</button>
+            <button id="helpBtn" style="display: none" onclick="provideHelp()">Help</button>
+            <button id="nextBtn" style="display: none" onclick="nextWord()">Next Word</button>
+            <div id="feedback"></div>
         </div>
 
         <div id="progress-tab" class="tab-content">
@@ -47,6 +52,8 @@
     <script src="scripts/layout.js"></script>
     <script src="scripts/session.js"></script>
     <script src="scripts/add-verse.js"></script>
+    <script src="scripts/practice.js"></script>
+    <script src="scripts/verses.js"></script>
     <script>
         checkAuth();  // Check if user is authenticated
     </script>

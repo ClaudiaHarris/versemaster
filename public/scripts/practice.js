@@ -1,4 +1,4 @@
-let currentVerse, words, currentWordIndex;
+let currentVerse, words, currentWordIndex, missingWord;
 
 document.addEventListener('DOMContentLoaded', () => {
     const userData = getUserData();
@@ -9,10 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedVerse = select.value;
         document.getElementById('displayVerse').textContent = selectedVerse;
         document.getElementById('startBtn').style.display = 'block';
-        document.getElementById('deleteBtn').style.display = 'block';
-        document.getElementById('readyBtn').style.display = 'none';
-        document.getElementById('wordInput').style.display = 'none';
-        document.getElementById('submitBtn').style.display = 'none';
     });
 
     // Populate verse select options
@@ -20,49 +16,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const option = document.createElement('option');
         option.value = v.text;
         option.textContent = `${v.book} ${v.chapter}:${v.verse}`;
-        option.dataset.reference = JSON.stringify({ book: v.book, chapter: v.chapter, verse: v.verse });
         select.appendChild(option);
     });
 });
 
 function startPractice() {
-  const select = document.getElementById('verseSelect');
-  currentVerse = select.value;
-  words = currentVerse.split(' ');
-  currentWordIndex = 0;
-  document.getElementById('startBtn').style.display = 'none';
-  document.getElementById('wordInput').style.display = 'block';
-  document.getElementById('submitBtn').style.display = 'block';
-  nextWord();
+    const select = document.getElementById('verseSelect');
+    currentVerse = select.value;
+    words = currentVerse.split(' ');
+    currentWordIndex = 0;
+    document.getElementById('startBtn').style.display = 'none';
+    document.getElementById('wordInput').style.display = 'block';
+    document.getElementById('submitBtn').style.display = 'block';
+    document.getElementById('helpBtn').style.display = 'block';
+    nextWord();
 }
 
 function nextWord() {
-  if (currentWordIndex >= words.length) {
-    const userData = getUserData();
-    userData.points += 10;
-    userData.verses.find(v => v.text === currentVerse).status = 'learned';
-    saveUserData(userData);
-    alert('Verse completed! +10 points');
-    location.href = 'main.html';
-    return;
-  }
-  const display = words.map((w, i) => i === currentWordIndex ? '____' : w).join(' ');
-  document.getElementById('displayVerse').textContent = display;
-  document.getElementById('wordInput').value = '';
-  document.getElementById('nextBtn').style.display = 'none';
+    if (currentWordIndex < words.length) {
+        missingWord = words[currentWordIndex];
+        words[currentWordIndex] = '_____';
+        document.getElementById('displayVerse').textContent = words.join(' ');
+        document.getElementById('wordInput').value = '';
+        document.getElementById('wordInput').placeholder = `Enter word ${currentWordIndex + 1}`;
+        document.getElementById('feedback').textContent = '';
+    } else {
+        document.getElementById('feedback').textContent = 'You have completed the verse!';
+        document.getElementById('wordInput').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('helpBtn').style.display = 'none';
+    }
 }
 
 function checkWord() {
-  const input = document.getElementById('wordInput').value;
-  const feedback = document.getElementById('feedback');
-  if (!input) return feedback.textContent = 'Enter a word';
-  if (input === words[currentWordIndex]) {
-    feedback.textContent = 'Correct!';
+    const input = document.getElementById('wordInput').value.trim();
+    if (input === missingWord) {
+        words[currentWordIndex] = missingWord;
+        currentWordIndex++;
+        document.getElementById('feedback').textContent = 'Correct!';
+        nextWord();
+    } else {
+        document.getElementById('feedback').textContent = 'Try again!';
+    }
+}
+
+function provideHelp() {
+    words[currentWordIndex] = missingWord;
     currentWordIndex++;
-    document.getElementById('nextBtn').style.display = 'block';
-  } else {
-    feedback.textContent = 'Try again';
-  }
+    document.getElementById('feedback').textContent = `The correct word was: ${missingWord}`;
+    nextWord();
 }
 
 function deleteVerse() {
