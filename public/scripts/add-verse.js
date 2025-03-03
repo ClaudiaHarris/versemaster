@@ -1,5 +1,5 @@
 const API_KEY = 'cd7f1e33bf6628bd6df94eecccd60500';
-const BIBLE_ID = 'de4e12af7f28f599-01'; // ESV Bible 
+const BIBLE_ID = 'de4e12af7f28f599-01'; // ESV Bible
 
 const bookMap = {
   'genesis': 'GEN',
@@ -70,6 +70,16 @@ const bookMap = {
   'revelation': 'REV'
 };
 
+function cleanVerseText(verseText) {
+  verseText = verseText.replace(/\[.*?\]/g, ''); // Remove verse numbers in brackets
+  verseText = verseText.replace(/<[^>]+>/g, '').trim(); // Remove HTML tags
+  verseText = verseText.replace(/\s+/g, ' '); // Normalize whitespace
+  verseText = verseText.replace(/¶/g, ''); // Remove pilcrow
+  verseText = verseText.replace(/\b\d+\b\s*/g, '').trim(); // Remove leading numbers
+  verseText = verseText.replace(/(\d+)([a-zA-Z])/g, '$2'); // Remove numbers attached to words
+  return verseText;
+}
+
 function lookupVerse() {
   const book = document.getElementById('book').value.trim().toLowerCase();
   const chapter = document.getElementById('chapter').value.trim();
@@ -106,11 +116,7 @@ function lookupVerse() {
   .then(data => {
     if (!data.data || !data.data.content) throw new Error('Invalid response data');
     let verseText = data.data.content;
-    verseText = verseText.replace(/\[.*?\]/g, ''); // Remove verse numbers
-    verseText = verseText.replace(/<[^>]+>/g, '').trim(); // Remove HTML tags
-    verseText = verseText.replace(/\s+/g, ' '); // Normalize whitespace
-    verseText = verseText.replace(/¶/g, ''); // Remove pilcrow
-    
+    verseText = cleanVerseText(verseText);
     document.getElementById('text').value = verseText;
   })
   .catch(err => {
@@ -123,8 +129,12 @@ function addVerse() {
   const book = document.getElementById('book').value;
   const chapter = document.getElementById('chapter').value;
   const verse = document.getElementById('verse').value;
-  const text = document.getElementById('text').value;
+  let text = document.getElementById('text').value;
+
   if (!book || !chapter || !verse || !text) return alert('All fields required');
+  
+  text = cleanVerseText(text); // Clean the verse text before saving
+  
   const userData = getUserData();
   userData.verses.push({ book, chapter, verse, text, status: 'practicing' });
   saveUserData(userData);
