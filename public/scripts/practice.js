@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function startPractice() {
     if (!currentVerse) return;
     
+    // Initialize points from user data
+    const userData = getUserData();
+    points = Number(userData.points || 0);
+    
     words = currentVerse.split(' ');
     currentWordIndex = 0;
     correctWords = 0;
@@ -105,6 +109,67 @@ function updatePointsDisplay() {
     const pointsDisplay = document.getElementById('pointsDisplay');
     if (pointsDisplay) {
         pointsDisplay.textContent = `Points: ${points}`;
+    }
+}
+
+function calculateFinalPoints() {
+    // Calculate statistics
+    const percentageCorrect = Math.round((correctWords / words.length) * 100);
+    const versePoints = correctWords; // Points earned from correct words
+    const bonusPoints = !usedHelp ? 10 : 0; // Bonus points for not using help
+    
+    // Add bonus points to total points
+    points += bonusPoints;
+    
+    // Calculate total points for this verse
+    const totalVersePoints = versePoints + bonusPoints;
+    
+    // If they got more than 80% correct, mark the verse as learned
+    if (percentageCorrect >= 80) {
+        markVerseAsLearned();
+    }
+    
+    // Save total points to user data
+    const userData = getUserData();
+    userData.points = points;
+    saveUserData(userData);
+    
+    // Create detailed completion message
+    const completionStats = [
+        '=== Verse Completed! ===',
+        `Accuracy: ${percentageCorrect}%`,
+        `Words correct: ${correctWords}/${words.length}`,
+        `Points earned: ${versePoints}`,
+        bonusPoints ? `Bonus points: +${bonusPoints} (no help used!)` : `No bonus (help was used)`,
+        `Total points this verse: ${totalVersePoints}`,
+        `Total points overall: ${points}`,
+        percentageCorrect >= 80 ? '\nVerse marked as learned!' : ''
+    ].join('\n');
+    
+    // Show completion message
+    const feedback = document.getElementById('feedback');
+    if (feedback) {
+        feedback.style.whiteSpace = 'pre-line'; // Preserve line breaks
+        feedback.style.marginTop = '20px'; // Add some spacing
+        feedback.textContent = completionStats;
+    }
+    
+    // Update points display
+    updatePointsDisplay();
+    
+    // Also show an alert for immediate feedback
+    alert('Verse completed! Check the feedback area for your statistics.');
+}
+
+function markVerseAsLearned() {
+    const userData = getUserData();
+    const verseText = currentVerse;
+    
+    // Find and update the verse status
+    const verseIndex = userData.verses.findIndex(v => v.text === verseText);
+    if (verseIndex !== -1) {
+        userData.verses[verseIndex].status = 'learned';
+        saveUserData(userData);
     }
 }
 
