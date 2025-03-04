@@ -96,9 +96,20 @@ function checkWord() {
         currentWordIndex++;
         points++;
         correctWords++;
-        document.getElementById('feedback').textContent = 'Correct!';
-        updatePointsDisplay();
-        nextWord();
+        
+        // Check if this was the last word
+        if (currentWordIndex >= words.length) {
+            document.getElementById('displayVerse').innerHTML = words.join(' ');
+            document.getElementById('feedback').textContent = 'You have completed the verse!';
+            document.getElementById('wordInput').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('helpBtn').style.display = 'none';
+            calculateFinalPoints();
+        } else {
+            document.getElementById('feedback').textContent = 'Correct!';
+            updatePointsDisplay();
+            nextWord();
+        }
     } else {
         document.getElementById('feedback').textContent = 'Try again!';
         document.getElementById('wordInput').value = '';
@@ -157,8 +168,33 @@ function calculateFinalPoints() {
     // Update points display
     updatePointsDisplay();
     
+    // Show try again button
+    const tryAgainBtn = document.createElement('button');
+    tryAgainBtn.textContent = 'Try This Verse Again';
+    tryAgainBtn.onclick = tryVerseAgain;
+    tryAgainBtn.style.marginTop = '20px';
+    tryAgainBtn.className = 'btn btn-primary';
+    document.getElementById('displayVerse').insertAdjacentElement('afterend', tryAgainBtn);
+    
     // Also show an alert for immediate feedback
     alert('Verse completed! Check the feedback area for your statistics.');
+}
+
+function tryVerseAgain() {
+    // Reset the display verse to its original state
+    document.getElementById('displayVerse').innerHTML = currentVerse;
+    
+    // Clear feedback
+    document.getElementById('feedback').textContent = '';
+    
+    // Remove the try again button
+    const tryAgainBtn = document.querySelector('button[onclick="tryVerseAgain"]');
+    if (tryAgainBtn) {
+        tryAgainBtn.remove();
+    }
+    
+    // Start practice with the same verse
+    startPractice();
 }
 
 function markVerseAsLearned() {
